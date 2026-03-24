@@ -2,6 +2,7 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 let age = 20;
 let user = [1, "Minhaz"];
+// enum
 var Size;
 (function (Size) {
     Size[Size["small"] = 1] = "small";
@@ -20,4 +21,22 @@ const userRole = Role.Guest;
 if (userRole === Role.Guest) {
     console.log("Welcome Guest!");
 }
+// Real World Examples
+var OrderStatus;
+(function (OrderStatus) {
+    OrderStatus["Pending"] = "PENDING";
+    OrderStatus["Processing"] = "PROCESSING";
+    OrderStatus["Shipped"] = "SHIPPED";
+    OrderStatus["Delivered"] = "DELIVERED";
+    OrderStatus["Cancelled"] = "CANCELLED";
+})(OrderStatus || (OrderStatus = {}));
+function updateOrder(status) {
+    if (status === OrderStatus.Delivered) {
+        console.log("Order delevired");
+    }
+    else if (status === OrderStatus.Cancelled) {
+        console.log("Order Cancelled");
+    }
+}
+updateOrder(OrderStatus.Cancelled);
 //# sourceMappingURL=index.js.map
