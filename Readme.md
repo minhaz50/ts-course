@@ -1,4 +1,244 @@
-#Function
+# Tuples in TypeScript
+
+## English Explanation
+
+A **tuple** is a special type of array where:
+
+- The **number of elements is fixed**
+- The **type of each element is known** and in a specific position
+
+### Basic Example
+
+typescript
+
+```tsx
+// Regular array - all elements same type
+const numbers: number[] = [1, 2, 3, 100];
+
+// Tuple - fixed length, each position has a specific type
+const person: [string, number] = ["Alice", 25];
+//                                  ↑         ↑
+//                               position 0  position 1
+//                               must be     must be
+//                               string      number
+```
+
+### More Examples
+
+typescript
+
+```tsx
+// RGB Color
+const color: [number, number, number] = [255, 128, 0];
+
+// User data
+const user: [string, number, boolean] = ["Bob", 30, true];
+
+// Accessing elements
+const name = user[0]; // string
+const age = user[1]; // number
+const active = user[2]; // boolean
+
+// ❌ Wrong type at wrong position — TypeScript will throw error
+const wrong: [string, number] = [25, "Alice"]; // Error!
+
+// ❌ Wrong length
+const wrong2: [string, number] = ["Alice", 25, true]; // Error!
+```
+
+### Named Tuples (cleaner & readable)
+
+typescript
+
+```tsx
+const user: [name: string, age: number, active: boolean] = ["Alice", 25, true];
+```
+
+### Optional Elements
+
+typescript
+
+```tsx
+const data: [string, number?] = ["Alice"]; // age is optional
+```
+
+### Tuple with Rest
+
+typescript
+
+```tsx
+const log: [string, ...number[]] = ["scores", 10, 20, 30, 40];
+```
+
+### Common Use Case — Function returning multiple values
+
+typescript
+
+```tsx
+function getUser(): [string, number] {
+  return ["Alice", 25];
+}
+
+const [name, age] = getUser(); // destructuring
+console.log(name); // "Alice"
+console.log(age); // 25
+```
+
+# Enums in TypeScript
+
+## English Explanation
+
+An **enum** (enumeration) is a way to define a set of **named constants**. Instead of using raw numbers or strings, you give them meaningful names.
+
+### Without Enum (messy ❌)
+
+typescript
+
+```tsx
+// What does 1, 2, 3 mean here? Hard to understand!
+const userRole = 1;
+if (userRole === 1) {
+} // is 1 admin? user? guest?
+```
+
+### With Enum (clean ✅)
+
+typescript
+
+```tsx
+enum Role {
+  Admin,
+  User,
+  Guest,
+}
+
+const userRole = Role.Admin;
+if (userRole === Role.Admin) {
+  console.log("Welcome Admin!");
+}
+```
+
+---
+
+### Types of Enums
+
+### 1️⃣ Numeric Enum (default)
+
+typescript
+
+```tsx
+enum Direction {
+  Up, // 0
+  Down, // 1
+  Left, // 2
+  Right, // 3
+}
+
+console.log(Direction.Up); // 0
+console.log(Direction.Down); // 1
+
+// You can also set custom start value
+enum StatusCode {
+  OK = 200,
+  NotFound = 404,
+  ServerError = 500,
+}
+
+console.log(StatusCode.OK); // 200
+console.log(StatusCode.NotFound); // 404
+```
+
+### 2️⃣ String Enum (most commonly used ✅)
+
+typescript
+
+```tsx
+enum Direction {
+  Up = "UP",
+  Down = "DOWN",
+  Left = "LEFT",
+  Right = "RIGHT",
+}
+
+console.log(Direction.Up); // "UP"
+
+// Very useful in API calls, conditions
+function move(dir: Direction) {
+  console.log(`Moving ${dir}`);
+}
+
+move(Direction.Up); // Moving UP
+move(Direction.Left); // Moving LEFT
+move("UP"); // ❌ Error! must use enum value
+```
+
+### 3️⃣ Const Enum (faster, no JS output)
+
+typescript
+
+```tsx
+const enum Season {
+  Spring = "SPRING",
+  Summer = "SUMMER",
+  Autumn = "AUTUMN",
+  Winter = "WINTER",
+}
+
+const current = Season.Summer; // compiles to just "SUMMER" in JS
+```
+
+---
+
+### Real World Example
+
+typescript
+
+```tsx
+enum OrderStatus {
+  Pending = "PENDING",
+  Processing = "PROCESSING",
+  Shipped = "SHIPPED",
+  Delivered = "DELIVERED",
+  Cancelled = "CANCELLED",
+}
+
+function updateOrder(status: OrderStatus) {
+  if (status === OrderStatus.Delivered) {
+    console.log("Order delivered! 🎉");
+  } else if (status === OrderStatus.Cancelled) {
+    console.log("Order cancelled 😢");
+  }
+}
+
+updateOrder(OrderStatus.Delivered); // ✅
+updateOrder("DELIVERED"); // ❌ Error!
+```
+
+---
+
+### Enum vs Union Type
+
+Many developers prefer **union types** over enums in modern TypeScript:
+
+typescript
+
+```tsx
+// Enum approach
+enum Direction {
+  Up = "UP",
+  Down = "DOWN",
+}
+
+// Union type approach (simpler, more modern)
+type Direction = "UP" | "DOWN";
+```
+
+|             | Enum                 | Union Type        |
+| ----------- | -------------------- | ----------------- |
+| Syntax      | More verbose         | Cleaner           |
+| JS output   | Generates extra code | No extra code     |
+| Use case    | Large fixed sets     | Small simple sets |
+| Recommended | For big projects     | For most cases    |
 
 # Functions in TypeScript
 
