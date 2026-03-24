@@ -53,3 +53,20 @@ function calculateTax(income: number): number {
   }
   return income * 1.3;
 }
+
+// objects
+
+type User = {
+  name: string;
+  age: number;
+  email: string;
+};
+
+const user1: User = {
+  name: "Alice",
+  age: 23,
+  email: "alice@gmail.com",
+};
+
+console.log(user1.name);
+console.log(user1.age);

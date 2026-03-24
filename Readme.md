@@ -213,3 +213,250 @@ adults.forEach((user) => console.log(formatUser(user)));
 // Alice (25) - alice@email.com
 // Charlie (30) - charlie@email.com
 ```
+
+# Objects in TypeScript
+
+An **object** is a collection of **key-value pairs**. In TypeScript, you define the **shape** of an object — what properties it has and what types they are.
+
+---
+
+### Basic Object
+
+typescript
+
+```tsx
+// JavaScript (no types)
+const user = {
+  name: "Alice",
+  age: 25,
+};
+
+// TypeScript (with inline type)
+const user: { name: string; age: number } = {
+  name: "Alice",
+  age: 25,
+};
+```
+
+---
+
+### Using `type` (most common ✅)
+
+typescript
+
+```tsx
+type User = {
+  name: string;
+  age: number;
+  email: string;
+};
+
+const user: User = {
+  name: "Alice",
+  age: 25,
+  email: "alice@email.com",
+};
+
+console.log(user.name); // Alice
+console.log(user.age); // 25
+```
+
+---
+
+### Using `interface`
+
+typescript
+
+```tsx
+interface User {
+  name: string;
+  age: number;
+  email: string;
+}
+
+const user: User = {
+  name: "Alice",
+  age: 25,
+  email: "alice@email.com",
+};
+```
+
+### `type` vs `interface`
+
+|                    | type          | interface           |
+| ------------------ | ------------- | ------------------- |
+| Basic objects      | ✅            | ✅                  |
+| Extend/inherit     | ✅ (with `&`) | ✅ (with `extends`) |
+| Union types        | ✅            | ❌                  |
+| Reopen & add props | ❌            | ✅                  |
+| Recommended for    | Most cases    | Class-based OOP     |
+
+---
+
+### Optional Properties
+
+typescript
+
+```tsx
+type User = {
+  name: string;
+  age: number;
+  phone?: string; // optional
+  //      ↑
+  //   may or may not exist
+};
+
+const user1: User = { name: "Alice", age: 25 }; // ✅
+const user2: User = { name: "Bob", age: 30, phone: "123" }; // ✅
+```
+
+---
+
+### Readonly Properties
+
+typescript
+
+```tsx
+type User = {
+  readonly id: number; // cannot be changed after creation
+  name: string;
+};
+
+const user: User = { id: 1, name: "Alice" };
+
+user.name = "Bob"; // ✅ allowed
+user.id = 2; // ❌ Error! id is readonly
+```
+
+---
+
+### Nested Objects
+
+typescript
+
+```tsx
+type Address = {
+  city: string;
+  country: string;
+};
+
+type User = {
+  name: string;
+  age: number;
+  address: Address; // nested object
+};
+
+const user: User = {
+  name: "Alice",
+  age: 25,
+  address: {
+    city: "New York",
+    country: "USA",
+  },
+};
+
+console.log(user.address.city); // New York
+```
+
+---
+
+### Object with Methods
+
+typescript
+
+```tsx
+type User = {
+  name: string;
+  age: number;
+  greet: () => string; // method
+  birthday: (n: number) => number; // method with param
+};
+
+const user: User = {
+  name: "Alice",
+  age: 25,
+  greet: () => `Hello, I am Alice!`,
+  birthday: (years) => 25 + years,
+};
+
+console.log(user.greet()); // Hello, I am Alice!
+console.log(user.birthday(1)); // 26
+```
+
+---
+
+### Intersection Type (combining objects)
+
+typescript
+
+```tsx
+type Person = {
+  name: string;
+  age: number;
+};
+
+type Employee = {
+  company: string;
+  salary: number;
+};
+
+// Combine both types with &
+type Staff = Person & Employee;
+
+const staff: Staff = {
+  name: "Alice",
+  age: 25,
+  company: "Google",
+  salary: 100000,
+};
+```
+
+---
+
+### Real World Example
+
+typescript
+
+```tsx
+type Address = {
+  city: string;
+  country: string;
+};
+
+type Product = {
+  readonly id: number;
+  name: string;
+  price: number;
+  inStock: boolean;
+  tags?: string[];
+};
+
+type Order = {
+  readonly orderId: number;
+  product: Product;
+  quantity: number;
+  shippingAddress: Address;
+  getTotal: () => number;
+};
+
+const order: Order = {
+  orderId: 101,
+  product: {
+    id: 1,
+    name: "Laptop",
+    price: 999,
+    inStock: true,
+    tags: ["electronics", "computers"],
+  },
+  quantity: 2,
+  shippingAddress: {
+    city: "New York",
+    country: "USA",
+  },
+  getTotal: function () {
+    return this.product.price * this.quantity;
+  },
+};
+
+console.log(order.getTotal()); // 1998
+```

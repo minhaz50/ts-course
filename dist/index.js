@@ -32,11 +32,25 @@ var OrderStatus;
 })(OrderStatus || (OrderStatus = {}));
 function updateOrder(status) {
     if (status === OrderStatus.Delivered) {
-        console.log("Order delevired");
+        console.log("Order delivered");
     }
     else if (status === OrderStatus.Cancelled) {
         console.log("Order Cancelled");
     }
 }
 updateOrder(OrderStatus.Cancelled);
+// function
+function calculateTax(income) {
+    if (income < 50_000) {
+        return income * 1.2;
+    }
+    return income * 1.3;
+}
+const user1 = {
+    name: "Alice",
+    age: 23,
+    email: "alice@gmail.com",
+};
+console.log(user1.name);
+console.log(user1.age);
 //# sourceMappingURL=index.js.map
